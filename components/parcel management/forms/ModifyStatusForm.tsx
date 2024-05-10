@@ -27,10 +27,30 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { DropdownMenuItem } from "@components/ui/dropdown-menu";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@components/ui/select";
 
 const FormSchema = z.object({
   status: z.string().min(1, "Status must be provided"),
 });
+
+const possibleStatuses = [
+  "DELIVERED",
+  "RETURNED",
+  "RETURN-READY",
+  "TO-DESTINATION-STATE",
+  "DELIVERY-FAILED",
+  "DELIVERY-ATTEMPT-FAILED",
+  "WAITING-FOR-CLIENT",
+  "RETURNED-TO-OFFICE",
+  "RETURNED",
+  "DISPATCHED",
+];
 
 export function ModifyStatusForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -80,9 +100,23 @@ export function ModifyStatusForm() {
               render={({ field }) => (
                 <FormItem className="w-full ">
                   <FormLabel>Parcel new status</FormLabel>
-                  <FormControl>
-                    <Input readOnly placeholder="Delivered ..." {...field} />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="new parcel status" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {possibleStatuses.map((status) => (
+                        <SelectItem key={status} value={status}>
+                          {status}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormDescription>
                     The parcel status will be updated to the new status.
                   </FormDescription>

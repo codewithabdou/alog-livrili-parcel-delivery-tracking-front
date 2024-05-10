@@ -11,13 +11,9 @@ async function getParcelHistory(parcelId: string): Promise<ParcelHistory[]> {
         headers: {
           "Content-Type": "application/json",
         },
-        next: {
-          revalidate: 0,
-        },
       }
     );
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (error) {
     console.error(error);

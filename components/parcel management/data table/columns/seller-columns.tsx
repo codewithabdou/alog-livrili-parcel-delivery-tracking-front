@@ -12,7 +12,9 @@ import {
 import { ColumnDef } from "@tanstack/react-table";
 import { HiDotsHorizontal } from "react-icons/hi";
 import ParcelStatusHistory from "../../history/ParcelStatusHistory";
-import { Parcel } from "@typings/entities";
+import { Parcel, ParcelHistory } from "@typings/entities";
+import { useEffect, useState } from "react";
+import getParcelHistory from "@api/getParcelHistory";
 
 export const columns: ColumnDef<Parcel>[] = [
   {
@@ -27,6 +29,11 @@ export const columns: ColumnDef<Parcel>[] = [
     header: "actions",
     cell: ({ row }) => {
       const parcel = row.original;
+      const parcelId = parcel.id;
+      const [parcelHistory, setParcelHistory] = useState<ParcelHistory[]>([]);
+      useEffect(() => {
+        getParcelHistory(parcelId).then((data) => setParcelHistory(data));
+      }, [parcelId]);
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -43,7 +50,7 @@ export const columns: ColumnDef<Parcel>[] = [
               Copy Parcel ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <ParcelStatusHistory parcelId={parcel.id} />
+            <ParcelStatusHistory parcelHistory={parcelHistory} />
           </DropdownMenuContent>
         </DropdownMenu>
       );

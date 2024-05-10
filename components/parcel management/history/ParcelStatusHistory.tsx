@@ -8,13 +8,82 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import getParcelHistory from "@api/getParcelHistory";
 import { Button } from "@components/ui/button";
 import { DropdownMenuItem } from "@components/ui/dropdown-menu";
 import { ParcelHistory } from "@typings/entities";
+import { TbTruckDelivery } from "react-icons/tb";
 
-const ParcelStatusHistory = async ({ parcelId }: { parcelId: string }) => {
-  const parcelHistory: ParcelHistory[] = await getParcelHistory(parcelId);
+const StutusesInfos: Record<
+  string,
+  { description: string; icon: JSX.Element }
+> = {
+  DELIVERED: {
+    description: "Parcel has been delivered to the client.",
+    icon: (
+      <TbTruckDelivery className="text-green-800 bg-green-400 p-1 rounded-full" />
+    ),
+  },
+  RETURNED: {
+    description: "Parcel has been returned to the office.",
+    icon: (
+      <TbTruckDelivery className="text-red-800 bg-red-400 p-1 rounded-full" />
+    ),
+  },
+  "RETURN-READY": {
+    description: "Parcel is ready to be returned.",
+    icon: (
+      <TbTruckDelivery className="text-yellow-800 bg-yellow-400 p-1 rounded-full" />
+    ),
+  },
+  "TO-DESTINATION-STATE": {
+    description: "Parcel is on the way to the destination state.",
+    icon: (
+      <TbTruckDelivery className="text-blue-800 bg-blue-400 p-1 rounded-full" />
+    ),
+  },
+  "DELIVERY-FAILED": {
+    description: "Parcel delivery failed.",
+    icon: (
+      <TbTruckDelivery className="text-red-800 bg-red-400 p-1 rounded-full" />
+    ),
+  },
+  "DELIVERY-ATTEMPT-FAILED": {
+    description: "Parcel delivery attempt failed.",
+    icon: (
+      <TbTruckDelivery className="text-red-800 bg-red-400 p-1 rounded-full" />
+    ),
+  },
+  "WAITING-FOR-CLIENT": {
+    description: "Parcel is waiting for the client.",
+    icon: (
+      <TbTruckDelivery className="text-yellow-800 bg-yellow-400 p-1 rounded-full" />
+    ),
+  },
+  "RETURNED-TO-OFFICE": {
+    description: "Parcel has been returned to the office.",
+    icon: (
+      <TbTruckDelivery className="text-red-800 bg-red-400 p-1 rounded-full" />
+    ),
+  },
+  DISPATCHED: {
+    description: "Parcel has been dispatched.",
+    icon: (
+      <TbTruckDelivery className="text-blue-800 bg-blue-400 p-1 rounded-full" />
+    ),
+  },
+  CREATED: {
+    description: "Parcel has been created.",
+    icon: (
+      <TbTruckDelivery className="text-blue-800 bg-blue-400 p-1 rounded-full" />
+    ),
+  },
+};
+
+const ParcelStatusHistory = ({
+  parcelHistory,
+}: {
+  parcelHistory: ParcelHistory[];
+}) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -36,142 +105,20 @@ const ParcelStatusHistory = async ({ parcelId }: { parcelId: string }) => {
 
         <div>
           <ol className="relative border-s  border-gray-200 dark:border-gray-700">
-            <li className="mb-10 ms-6">
-              <span className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-                <svg
-                  className="w-2.5 h-2.5 text-blue-800 dark:text-blue-300"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                </svg>
-              </span>
-              <h3 className="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">
-                Inbound from Provider A Zone C
-                <span className="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 ms-3">
-                  Latest
-                </span>
-              </h3>
-              <time className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
-                Modified on January 13th, 2022
-              </time>
-            </li>
-            <li className="mb-10 ms-6">
-              <span className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-                <svg
-                  className="w-2.5 h-2.5 text-blue-800 dark:text-blue-300"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                </svg>
-              </span>
-              <h3 className="mb-1 text-lg font-semibold text-gray-900 dark:text-white">
-                Outbound from Provider A Zone B
-              </h3>
-              <time className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
-                Modified on December 7th, 2021
-              </time>
-            </li>
-            <li className="mb-10 ms-6">
-              <span className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-                <svg
-                  className="w-2.5 h-2.5 text-blue-800 dark:text-blue-300"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                </svg>
-              </span>
-              <h3 className="mb-1 text-lg font-semibold text-gray-900 dark:text-white">
-                Outbound from Provider A Zone B
-              </h3>
-              <time className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
-                Modified on December 7th, 2021
-              </time>
-            </li>{" "}
-            <li className="mb-10 ms-6">
-              <span className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-                <svg
-                  className="w-2.5 h-2.5 text-blue-800 dark:text-blue-300"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                </svg>
-              </span>
-              <h3 className="mb-1 text-lg font-semibold text-gray-900 dark:text-white">
-                Outbound from Provider A Zone B
-              </h3>
-              <time className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
-                Modified on December 7th, 2021
-              </time>
-            </li>{" "}
-            <li className="mb-10 ms-6">
-              <span className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-                <svg
-                  className="w-2.5 h-2.5 text-blue-800 dark:text-blue-300"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                </svg>
-              </span>
-              <h3 className="mb-1 text-lg font-semibold text-gray-900 dark:text-white">
-                Outbound from Provider A Zone B
-              </h3>
-              <time className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
-                Modified on December 7th, 2021
-              </time>
-            </li>{" "}
-            <li className="mb-10 ms-6">
-              <span className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-                <svg
-                  className="w-2.5 h-2.5 text-blue-800 dark:text-blue-300"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                </svg>
-              </span>
-              <h3 className="mb-1 text-lg font-semibold text-gray-900 dark:text-white">
-                Outbound from Provider A Zone B
-              </h3>
-              <time className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
-                Modified on December 7th, 2021
-              </time>
-            </li>{" "}
-            <li className="mb-10 ms-6">
-              <span className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-                <svg
-                  className="w-2.5 h-2.5 text-blue-800 dark:text-blue-300"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                </svg>
-              </span>
-              <h3 className="mb-1 text-lg font-semibold text-gray-900 dark:text-white">
-                Outbound from Provider A Zone B
-              </h3>
-              <time className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
-                Modified on December 7th, 2021
-              </time>
-            </li>
+            {parcelHistory.map((status) => (
+              <li className="mb-10 ms-6">
+                {StutusesInfos[status.status].icon}
+                <h3 className="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">
+                  {status.status}
+                  <span className="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 ms-3">
+                    Latest
+                  </span>
+                </h3>
+                <time className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
+                  On {status.timestamp.toLocaleString("en-US")}
+                </time>
+              </li>
+            ))}
           </ol>
         </div>
         <DialogFooter className="sm:justify-start">

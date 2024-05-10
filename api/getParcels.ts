@@ -9,9 +9,7 @@ async function getParcels(): Promise<Parcel[]> {
       headers: {
         "Content-Type": "application/json",
       },
-      next: {
-        revalidate: 0,
-      },
+      cache: "no-store",
     });
     const data = await response.json();
     return data;
