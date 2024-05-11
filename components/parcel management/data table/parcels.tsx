@@ -2,7 +2,7 @@ import { Parcel } from "@typings/entities";
 import { DataTable } from "./table";
 import { ColumnDef } from "@tanstack/react-table";
 
-export default async function ParcelsTable({
+export default function ParcelsTable({
   columns,
   data,
 }: {

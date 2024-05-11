@@ -1,5 +1,3 @@
-"use client";
-
 import { ethers } from "ethers";
 
 import { MetaMaskInpageProvider } from "@metamask/providers";
@@ -20,7 +18,7 @@ export const connectWallet = async (
 ) => {
   if (typeof window != "undefined" && typeof window.ethereum != "undefined") {
     try {
-      const provider = new ethers.BrowserProvider(window.ethereum);
+      const provider = new ethers.BrowserProvider(window.ethereum, "any");
       const accounts = await provider.send("eth_requestAccounts", []);
 
       handle(accounts[0], await provider.getSigner(), ParcelContract(provider));
@@ -45,7 +43,7 @@ export const getCurrentWalletConnected = async (
   if (typeof window != "undefined" && typeof window.ethereum != "undefined") {
     try {
       const provider = new ethers.BrowserProvider(window.ethereum);
-      const accounts = await provider.send("eth_requestAccounts", []);
+      const accounts = await provider.send("eth_accounts", []);
       if (accounts.length > 0) {
         handle(
           accounts[0],

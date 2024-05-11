@@ -1,16 +1,34 @@
 "use client";
 
-import React, { Suspense } from "react";
-import AgentAuthContext from "./context/AgentAuthContext";
-import AgentView from "./AgentView";
+import React, { useEffect, useState } from "react";
+import useAuth from "./context/useAuth";
+import ParcelsTable from "@components/parcel management/data table/parcels";
+import { columns } from "@components/parcel management/data table/columns/agent-columns";
+import { Parcel } from "@typings/entities";
 
 const Agent = () => {
+  const [parcels, setParcels] = useState<Parcel[]>([]);
+
+  const { account, contract, signer, setAccount, setContract, setSigner } =
+    useAuth();
+
+  useEffect(() => {
+    if (contract) {
+      contract.getParcels().then((parcels) => {
+        console.log(parcels);
+      });
+    }
+  }, [contract]);
+
   return (
-    <Suspense>
-      <AgentAuthContext>
-        <AgentView />
-      </AgentAuthContext>
-    </Suspense>
+    <div className="w-full">
+      <div className="flex gap-6 mt-6 flex-wrap justify-start items-center">
+        <h1 className="md:text-3xl text-2xl  font-bold ">
+          Agent Parcels Management
+        </h1>
+      </div>
+      <ParcelsTable columns={columns} data={[]} />
+    </div>
   );
 };
 
