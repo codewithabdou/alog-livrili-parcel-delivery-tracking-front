@@ -37,80 +37,80 @@ export const columns: ColumnDef<Parcel>[] = [
       useEffect(() => {
         getParcelHistory(parcelId).then((data) => setParcelHistory(data));
       }, [parcelId]);
-      const fakeParcelHistory: ParcelHistory[] = [
-        {
-          status: "DELIVERED",
-          timestamp: new Date(),
-        },
-        {
-          status: "RETURNED",
-          timestamp: new Date(),
-        },
-        {
-          status: "DELIVERED",
-          timestamp: new Date(),
-        },
-        {
-          status: "RETURNED",
-          timestamp: new Date(),
-        },
-        {
-          status: "DELIVERED",
-          timestamp: new Date(),
-        },
-        {
-          status: "RETURNED",
-          timestamp: new Date(),
-        },
-        {
-          status: "DELIVERED",
-          timestamp: new Date(),
-        },
-        {
-          status: "RETURNED",
-          timestamp: new Date(),
-        },
-        {
-          status: "DELIVERED",
-          timestamp: new Date(),
-        },
-        {
-          status: "RETURNED",
-          timestamp: new Date(),
-        },
-        {
-          status: "DELIVERED",
-          timestamp: new Date(),
-        },
-        {
-          status: "RETURNED",
-          timestamp: new Date(),
-        },
-        {
-          status: "DELIVERED",
-          timestamp: new Date(),
-        },
-        {
-          status: "RETURNED",
-          timestamp: new Date(),
-        },
-        {
-          status: "DELIVERED",
-          timestamp: new Date(),
-        },
-        {
-          status: "RETURNED",
-          timestamp: new Date(),
-        },
-        {
-          status: "DELIVERED",
-          timestamp: new Date(),
-        },
-        {
-          status: "RETURNED",
-          timestamp: new Date(),
-        },
-      ];
+      // const fakeParcelHistory: ParcelHistory[] = [
+      //   {
+      //     status: "DELIVERED",
+      //     timestamp: new Date(),
+      //   },
+      //   {
+      //     status: "RETURNED",
+      //     timestamp: new Date(),
+      //   },
+      //   {
+      //     status: "DELIVERED",
+      //     timestamp: new Date(),
+      //   },
+      //   {
+      //     status: "RETURNED",
+      //     timestamp: new Date(),
+      //   },
+      //   {
+      //     status: "DELIVERED",
+      //     timestamp: new Date(),
+      //   },
+      //   {
+      //     status: "RETURNED",
+      //     timestamp: new Date(),
+      //   },
+      //   {
+      //     status: "DELIVERED",
+      //     timestamp: new Date(),
+      //   },
+      //   {
+      //     status: "RETURNED",
+      //     timestamp: new Date(),
+      //   },
+      //   {
+      //     status: "DELIVERED",
+      //     timestamp: new Date(),
+      //   },
+      //   {
+      //     status: "RETURNED",
+      //     timestamp: new Date(),
+      //   },
+      //   {
+      //     status: "DELIVERED",
+      //     timestamp: new Date(),
+      //   },
+      //   {
+      //     status: "RETURNED",
+      //     timestamp: new Date(),
+      //   },
+      //   {
+      //     status: "DELIVERED",
+      //     timestamp: new Date(),
+      //   },
+      //   {
+      //     status: "RETURNED",
+      //     timestamp: new Date(),
+      //   },
+      //   {
+      //     status: "DELIVERED",
+      //     timestamp: new Date(),
+      //   },
+      //   {
+      //     status: "RETURNED",
+      //     timestamp: new Date(),
+      //   },
+      //   {
+      //     status: "DELIVERED",
+      //     timestamp: new Date(),
+      //   },
+      //   {
+      //     status: "RETURNED",
+      //     timestamp: new Date(),
+      //   },
+      // ];
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -127,7 +127,7 @@ export const columns: ColumnDef<Parcel>[] = [
               Copy Parcel ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <ParcelStatusHistory parcelHistory={fakeParcelHistory} />
+            <ParcelStatusHistory parcelHistory={parcelHistory} />
             <ModifyStatusForm />
           </DropdownMenuContent>
         </DropdownMenu>
