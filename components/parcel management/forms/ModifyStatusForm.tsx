@@ -41,7 +41,6 @@ const FormSchema = z.object({
 
 const possibleStatuses = [
   "DELIVERED",
-  "RETURNED",
   "RETURN-READY",
   "TO-DESTINATION-STATE",
   "DELIVERY-FAILED",
