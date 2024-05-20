@@ -9,13 +9,21 @@ import { Parcel } from "@typings/entities";
 const Agent = () => {
   const [parcels, setParcels] = useState<Parcel[]>([]);
 
-  const { account, contract, signer, setAccount, setContract, setSigner } =
-    useAuth();
+  const { contract } = useAuth();
 
   useEffect(() => {
     if (contract) {
-      contract.getParcels().then((parcels) => {
-        console.log(parcels);
+      contract.getParcels().then((parcels: Parcel[]) => {
+        setParcels(
+          parcels.map((parcel) => ({
+            id: parcel.id.toString(),
+            price: parcel.price.toString(),
+            state: parcel.state,
+            city: parcel.city,
+            clientFullName: parcel.clientFullName,
+            clientPhoneNumber: parcel.clientPhoneNumber,
+          }))
+        );
       });
     }
   }, [contract]);
@@ -27,7 +35,7 @@ const Agent = () => {
           Agent Parcels Management
         </h1>
       </div>
-      <ParcelsTable columns={columns} data={[]} />
+      <ParcelsTable columns={columns} data={parcels} />
     </div>
   );
 };

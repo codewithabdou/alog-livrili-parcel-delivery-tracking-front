@@ -26,6 +26,18 @@ export const columns: ColumnDef<Parcel>[] = [
     header: "Client Name",
   },
   {
+    accessorKey: "price",
+    header: "Price",
+  },
+  {
+    accessorKey: "state",
+    header: "State",
+  },
+  {
+    accessorKey: "city",
+    header: "City",
+  },
+  {
     header: "actions",
     cell: ({ row }) => {
       const parcel = row.original;

@@ -1,4 +1,4 @@
-import { ContractRunner, ethers } from "ethers";
+import { ethers } from "ethers";
 
 const abi = [
   {
@@ -366,7 +366,7 @@ const abi = [
   },
 ];
 
-const ParcelContract = (provider: ContractRunner) => {
+const ParcelContract = (provider: ethers.providers.Provider) => {
   return new ethers.Contract(
     "0x5FbDB2315678afecb367f032d93F642f64180aa3",
     abi,

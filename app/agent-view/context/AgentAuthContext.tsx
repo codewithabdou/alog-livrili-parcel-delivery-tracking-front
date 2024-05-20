@@ -2,10 +2,7 @@
 
 import { ethers } from "ethers";
 import { createContext, useEffect, useState } from "react";
-import {
-  addWalletListener,
-  getCurrentWalletConnected,
-} from "../utils/metamask";
+import { connectWallet, getCurrentWalletConnected } from "../utils/metamask";
 
 type ContextType = {
   account: string | null;
@@ -28,14 +25,10 @@ const AgentAuthContext: React.FC<Props> = ({ children }) => {
   const [account, setAccount] = useState<string | null>(null);
 
   useEffect(() => {
-    getCurrentWalletConnected((address, signer, contract) => {
+    connectWallet((address, signer, contract) => {
       setAccount(address);
       setContract(contract);
       setSigner(signer);
-    });
-
-    addWalletListener((address) => {
-      setAccount(address);
     });
   }, []);
 
