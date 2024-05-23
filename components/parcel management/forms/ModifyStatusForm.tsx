@@ -34,6 +34,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@components/ui/select";
+import useAuth from "@app/agent-view/context/useAuth";
 
 const FormSchema = z.object({
   status: z.string().min(1, "Status must be provided"),
@@ -51,7 +52,9 @@ const possibleStatuses = [
   "DISPATCHED",
 ];
 
-export function ModifyStatusForm() {
+export function ModifyStatusForm({ id }: { id: string }) {
+  const { contract, signer } = useAuth();
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -59,15 +62,28 @@ export function ModifyStatusForm() {
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    if (!contract || !signer)
+      return toast({
+        title: "Error",
+        description: "Invalid Contract",
+      });
+    try {
+      const tx = await contract
+        .connect(signer)
+        .updateParcelStatus(id, data.status);
+      await tx.wait();
+      toast({
+        title: "Success",
+        description: "Parcel status updated",
+      });
+    } catch (e: any) {
+      if (e instanceof Error)
+        toast({
+          title: "Error",
+          description: e.message,
+        });
+    }
   }
   return (
     <Dialog>

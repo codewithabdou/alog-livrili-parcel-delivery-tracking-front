@@ -17,6 +17,7 @@ import { ModifyStatusForm } from "@components/parcel management/forms/ModifyStat
 import getParcelHistory from "@api/getParcelHistory";
 import { useEffect, useState } from "react";
 import { get } from "http";
+import useAuth from "@app/agent-view/context/useAuth";
 
 export const columns: ColumnDef<Parcel>[] = [
   {
@@ -31,12 +32,21 @@ export const columns: ColumnDef<Parcel>[] = [
   {
     header: "actions",
     cell: ({ row }) => {
+      const { contract } = useAuth();
       const parcel = row.original;
       const parcelId = parcel.id;
       const [parcelHistory, setParcelHistory] = useState<ParcelHistory[]>([]);
       useEffect(() => {
-        getParcelHistory(parcelId).then((data) => setParcelHistory(data));
-      }, [parcelId]);
+        if (!contract) return;
+        contract.getParcelHistory(parcelId).then((data: ParcelHistory[]) =>
+          setParcelHistory(
+            data.map((entry) => ({
+              status: entry.status,
+              timestamp: new Date(parseInt(entry.timestamp.toString()) * 1000),
+            }))
+          )
+        );
+      }, [contract, parcelId]);
       // const fakeParcelHistory: ParcelHistory[] = [
       //   {
       //     status: "DELIVERED",
@@ -128,7 +138,7 @@ export const columns: ColumnDef<Parcel>[] = [
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <ParcelStatusHistory parcelHistory={parcelHistory} />
-            <ModifyStatusForm />
+            <ModifyStatusForm id={parcel.id} />
           </DropdownMenuContent>
         </DropdownMenu>
       );
