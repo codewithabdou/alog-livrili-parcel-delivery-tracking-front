@@ -25,7 +25,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import { DropdownMenuItem } from "@components/ui/dropdown-menu";
 import {
   Select,
@@ -77,6 +76,7 @@ export function ModifyStatusForm({ id }: { id: string }) {
         title: "Success",
         description: "Parcel status updated",
       });
+      window.location.reload();
     } catch (e: any) {
       if (e instanceof Error)
         toast({

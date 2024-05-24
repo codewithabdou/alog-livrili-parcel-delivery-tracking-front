@@ -37,8 +37,13 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
-          <main className="min-h-screen px-[5%]  pt-24">{children}</main>
+          <div className="main">
+            <div className="gradient" />
+          </div>
+          <main className=" min-h-screen px-[5%]  pt-24 relative z-10 flex justify-start items-center flex-col">
+            <Navbar />
+            {children}
+          </main>
           <Toaster />
         </ThemeProvider>
       </body>
