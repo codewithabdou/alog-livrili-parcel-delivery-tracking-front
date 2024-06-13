@@ -44,7 +44,19 @@ export const columns: ColumnDef<Parcel>[] = [
       const parcelId = parcel.id;
       const [parcelHistory, setParcelHistory] = useState<ParcelHistory[]>([]);
       useEffect(() => {
-        getParcelHistory(parcelId).then((data) => setParcelHistory(data));
+        getParcelHistory(parcelId).then((data) => {
+          //order the data depending on the date
+          data.sort((a, b) => {
+            if (a.timestamp < b.timestamp) {
+              return 1;
+            }
+            if (a.timestamp > b.timestamp) {
+              return -1;
+            }
+            return 0;
+          });
+          setParcelHistory(data);
+        });
       }, [parcelId]);
       return (
         <DropdownMenu>

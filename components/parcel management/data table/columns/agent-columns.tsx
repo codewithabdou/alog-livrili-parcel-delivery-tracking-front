@@ -38,14 +38,23 @@ export const columns: ColumnDef<Parcel>[] = [
       const [parcelHistory, setParcelHistory] = useState<ParcelHistory[]>([]);
       useEffect(() => {
         if (!contract) return;
-        contract.getParcelHistory(parcelId).then((data: ParcelHistory[]) =>
-          setParcelHistory(
-            data.map((entry) => ({
-              status: entry.status,
-              timestamp: new Date(parseInt(entry.timestamp.toString()) * 1000),
-            }))
-          )
-        );
+        contract.getParcelHistory(parcelId).then((data: ParcelHistory[]) => {
+          const newData = data.map((entry) => ({
+            status: entry.status,
+            timestamp: new Date(parseInt(entry.timestamp.toString()) * 1000),
+          }));
+          //sort the data depending on the date
+          newData.sort((a, b) => {
+            if (a.timestamp < b.timestamp) {
+              return 1;
+            }
+            if (a.timestamp > b.timestamp) {
+              return -1;
+            }
+            return 0;
+          });
+          setParcelHistory(newData);
+        });
       }, [contract, parcelId]);
       // const fakeParcelHistory: ParcelHistory[] = [
       //   {
